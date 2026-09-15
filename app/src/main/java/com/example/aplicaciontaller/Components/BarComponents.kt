@@ -28,10 +28,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.aplicaciontaller.R
+import com.example.aplicaciontaller.ui.theme.Red1
 
 @Composable
 fun Title(text:String){
-    Text(text=text, fontSize=25.sp, color = Green1, fontWeight = FontWeight.Bold)
+    Text(text=text, fontSize=25.sp, color = Red1, fontWeight = FontWeight.Bold)
 }
 
 @Composable
@@ -40,8 +41,8 @@ fun CartButton(){
         onClick = {},
         containerColor = MaterialTheme.colorScheme.primary) {
         Icon(
-            painter = painterResource(R.drawable.outline_shopping_cart_24),
-            contentDescription = "Ir al carrito"
+            painter = painterResource(R.drawable.baseline_add_task_24),
+            contentDescription = "Añadir Tarea"
         )
     }
 }
@@ -92,7 +93,7 @@ fun SearchBarComponent(){
                 },
                 //Texto de fondo
                 placeholder = {
-                    Text("Buscar productos...")
+                    Text("Buscar tareas...")
                 },
                 //definir icono
                 leadingIcon = {

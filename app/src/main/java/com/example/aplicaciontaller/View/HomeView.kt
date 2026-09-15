@@ -35,7 +35,7 @@ fun HomeView(
             Column {
                 CenterAlignedTopAppBar(
                     title = {
-                        Title(text = "Home View")
+                        Title(text = "Tareas")
                     }
                     //colors = TopAppBarDefaults.topAppBarColors(
                     //containerColor = MaterialTheme.colorScheme.Red

@@ -12,6 +12,8 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.painterResource
+import com.example.aplicaciontaller.R
 
 @Composable
 fun BottomMenu(
@@ -44,15 +46,14 @@ fun BottomMenu(
             },
             icon = {
                 Icon(
-                    imageVector = Icons.Default.LocalOffer,
-                    contentDescription = "Ofertas"
+                    painter = painterResource(R.drawable.outline_calendar_month_24),
+                    contentDescription = "Diarias"
                 )
             },
             label = {
-                Text("Ofertas")
+                Text("Diarias")
             }
         )
-        //Tercera opción: Favoritos
         NavigationBarItem(
             selected = selectedItem == 2,
             onClick = {
@@ -60,12 +61,12 @@ fun BottomMenu(
             },
             icon = {
                 Icon(
-                    imageVector = Icons.Default.Favorite,
-                    contentDescription = "Favoritos"
+                    painter = painterResource(R.drawable.outline_checklist_24),
+                    contentDescription = "Tareas"
                 )
             },
             label = {
-                Text("Favoritos")
+                Text("Tareas")
             },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.primary,
