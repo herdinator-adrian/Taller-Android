@@ -36,9 +36,9 @@ fun Title(text:String){
 }
 
 @Composable
-fun CartButton(){
+fun CartButton(onClick:() -> Unit={}){
     FloatingActionButton(
-        onClick = {},
+        onClick = onClick,
         containerColor = MaterialTheme.colorScheme.primary) {
         Icon(
             painter = painterResource(R.drawable.baseline_add_task_24),

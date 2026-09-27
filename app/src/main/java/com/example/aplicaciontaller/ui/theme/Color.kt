@@ -9,6 +9,14 @@ val Pink80 = Color(0xFFEFB8C8)
 val Green1= Color(0xFF1D7614)
 
 val Red1= Color(0xFF761414)
+val RedL= Color(0xFFDE7D7D)
+
+val ultra_l_green = Color(0xFFeff6ec)
+val ultra_l_red = Color(0xFFfdf0f1)
+val ultra_l_blue = Color(0xFFebf3fc)
+val ultra_l_yellow = Color(0xFFFBFCEB)
+val ultra_l_purple = Color(0xFFF0EBFC)
+
 
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
