@@ -1,17 +1,18 @@
 package com.example.aplicaciontaller.navigation
 
+import com.example.aplicaciontaller.View.CartView
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.aplicaciontaller.View.CartView
 import com.example.aplicaciontaller.View.FavoritesView
 import com.example.aplicaciontaller.View.HomeView
 import com.example.aplicaciontaller.View.LoginView
 import com.example.aplicaciontaller.View.OffersView
 import com.example.aplicaciontaller.View.ProfileView
+import com.example.aplicaciontaller.View.RegisterView
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
@@ -42,6 +43,17 @@ fun NavGraph(
                 modifier = modifier
             )
         }
+        composable(Routes.Register.routes) {
+            RegisterView(
+                onNavigateToLogin = { navController.navigate(Routes.Login.routes) },
+                onRegisterSuccess = {
+                    navController.navigate(Routes.Home.routes) {
+                        popUpTo(Routes.Register.routes) { inclusive = true }
+                    }
+                },
+            )
+        }
+
         composable(Routes.Home.routes) {
             HomeView(
                 onItemSelected = { index ->
@@ -82,7 +94,8 @@ fun NavGraph(
             CartView(
                 onItemSelected = { index ->
                     navigateByBar(navController, index)
-                }
+                },
+                onBackClick = {navController.popBackStack()}
             )
         }
     }

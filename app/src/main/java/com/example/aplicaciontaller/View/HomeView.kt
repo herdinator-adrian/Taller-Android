@@ -1,5 +1,6 @@
 package com.example.aplicaciontaller.View
 
+import android.icu.text.CaseMap
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -38,7 +39,14 @@ import com.example.aplicaciontaller.ViewModel.HomeViewModelFactory
 import com.example.aplicaciontaller.ui.theme.AplicacionTallerTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aplicaciontaller.Components.CardCategoryHome
+import com.example.aplicaciontaller.Components.ProductCardHome
 import com.example.aplicaciontaller.Components.spaceH
+import com.example.aplicaciontaller.Data.repository.CartRepository
+import com.example.aplicaciontaller.Data.repository.ProductRepository
+import com.example.aplicaciontaller.ViewModel.CartViewModel
+import com.example.aplicaciontaller.ViewModel.CartViewModelFactory
+import com.example.aplicaciontaller.ViewModel.ProductViewModel
+import com.example.aplicaciontaller.ViewModel.ProductViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,7 +71,7 @@ fun HomeView(
             }
         },
         floatingActionButton = {
-            CartButton(onClick = onCartClick)
+            CartButton(onClick = onCartClick, )
         }
     ) {padding ->
         ContentHomeView(Modifier.padding(padding))
@@ -76,12 +84,20 @@ fun ContentHomeView(
 ){
     val context = LocalContext.current
     val database = AppDatabase.getDatabase(context)
-    val categoryDao = database.categoryDao()
-    val categoryRepository = CategoryRepository(categoryDao)
+
+    // Repositories
+    val categoryRepository = CategoryRepository(database.categoryDao())
+    val productRepository = ProductRepository(database.productDao())
+    val cartRepository = CartRepository(database.cartItemDao())
+
     val homeViewModel: HomeViewModel = viewModel(
         factory = HomeViewModelFactory(categoryRepository)
     )
+    val productViewModel: ProductViewModel = viewModel(factory = ProductViewModelFactory(productRepository))
+    val cartViewModel: CartViewModel = viewModel(factory = CartViewModelFactory(cartRepository, productRepository))
+
     val categories by homeViewModel.categories.collectAsState()
+    val products by productViewModel.products.collectAsState()
 
     Column(
         modifier=Modifier
@@ -98,25 +114,7 @@ fun ContentHomeView(
             R.drawable.outline_checklist_24
         )
         spaceV(16)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ){
-            Text(
-                text = "Categorías",
-                textAlign = TextAlign.Start,
-                fontWeight = FontWeight.Bold
-            )
-            Text(
-                text = "Ver Todas",
-                textAlign = TextAlign.End,
-                color = MaterialTheme.colorScheme.primary,
-                fontWeight = FontWeight.Bold
-            )
-        }
+        SectionHeader("Categorías")
         LazyRow(
             modifier = Modifier.fillMaxWidth()
                 .wrapContentHeight(),
@@ -132,14 +130,56 @@ fun ContentHomeView(
                 spaceH(6)
             }
         }
+        spaceV(16)
+        SectionHeader("Productos destacados")
+        spaceV(8)
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            items(products){ product ->
+                ProductCardHome(
+                    product = product,
+                    onAddClick = {cartViewModel.addToCart(product.id)}
+                )
+
+            }
+        }
     }
 }
 
-/*
+@Composable
+fun SectionHeader(title: String){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(IntrinsicSize.Min),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ){
+        Text(
+            text = title,
+            textAlign = TextAlign.Start,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = "Ver Todas",
+            textAlign = TextAlign.End,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+
 @Preview(showBackground = true)
 @Composable
 fun HomeViewPreview(){
     AplicacionTallerTheme{
-        HomeView { }
+        HomeView(
+            modifier = Modifier,
+            onItemSelected = {},
+            onCartClick = {}
+        )
     }
-}*/
+}

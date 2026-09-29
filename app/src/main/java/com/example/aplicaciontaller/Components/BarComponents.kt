@@ -52,15 +52,18 @@ fun MainScaffold(
     onItemSelected:(Int) -> Unit,
     topBar:@Composable () -> Unit ={},
     floatingActionButton: @Composable () -> Unit  = {},
+    showBottomBar: Boolean=true,
     content: @Composable (PaddingValues) -> Unit
 ){
     Scaffold(
         topBar=topBar,
         bottomBar = {
-            BottomMenu(
-                selectedItem = selectedItem,
-                onItemSelected = onItemSelected
-            )
+            if (showBottomBar){
+                BottomMenu(
+                    selectedItem = selectedItem,
+                    onItemSelected = onItemSelected
+                )
+            }
         },
         floatingActionButton = floatingActionButton,
         content = content
